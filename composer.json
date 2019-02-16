@@ -1,13 +1,14 @@
 {
-    "name": "jankx/human-number",
-    "description": "Friendly number for human can read easiler.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Puleeno Nguyen",
-            "email": "puleeno@gmail.com"
-        }
-    ],
-    "require": {}
+  "name": "jankx/human-number",
+  "description": "Friendly number for human can read easiler.",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Puleeno Nguyen",
+      "email": "puleeno@gmail.com"
+    }
+  ],
+  "require": {}
 }
