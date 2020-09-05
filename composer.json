@@ -1,5 +1,5 @@
 {
-  "name": "jankx/human-number",
+  "name": "ramphor/human-friendly-numbers",
   "description": "Friendly number for human can read easiler.",
   "type": "library",
   "license": "MIT",
@@ -13,10 +13,7 @@
   "require": {},
   "autoload": {
     "psr-4": {
-      "Jankx\\HumanNumber\\": "src/"
-    },
-    "files": [
-      "helpers.php"
-    ]
+      "Ramphor\\FriendlyNumbers\\": "src/FriendlyNumbers/"
+    }
   }
 }
