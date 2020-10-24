@@ -1,5 +1,6 @@
 <?php
 namespace Ramphor\FriendlyNumbers;
 
-class Scale {
+class Scale
+{
 }
