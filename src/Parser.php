@@ -4,7 +4,7 @@ namespace Ramphor\FriendlyNumbers;
 class Parser
 {
     protected static $locate;
-
+    protected $scale;
     protected $raw;
     protected $value;
     protected $unit;
@@ -27,5 +27,7 @@ class Parser
 
     public function toArray()
     {
+        return array(
+        );
     }
 }
