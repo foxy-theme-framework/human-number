@@ -45,4 +45,20 @@ class Parser
         $p->_parse();
         return $p;
     }
+
+    public static function parseString($number, $decimals = 3) {
+        $strlen = strlen($number);
+
+        if ($strlen < 4) {
+            return $number . ' ';
+        } else if ($strlen < 7) {
+            return round($number / 1000, $decimals) . ' ngìn ';
+        } else if ($strlen < 10) {
+            return round($number / 1000000, $decimals) . ' triệu ';
+        } else if ($strlen < 13) {
+            return round($number / 1000000000, $decimals) . ' tỷ ';
+        }
+
+        return ' ';
+    }
 }
