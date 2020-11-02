@@ -9,8 +9,18 @@ class Parser
     protected $value;
     protected $unit;
 
+    protected static $defaultScale;
+
     public function __construct($number = null, $scale = null, $locate = null)
     {
+        $this->raw = $number;
+        if (is_null(static::$defaultScale)) {
+            static::$defaultScale = new Scale(array(
+            ));
+        }
+    }
+
+    public static function createDefaultScale() {
     }
 
     public function __toString()
@@ -21,7 +31,7 @@ class Parser
     {
     }
 
-    public function parse($number, $scale, $locale)
+    public function _parse($number, $scale, $locale)
     {
     }
 
@@ -29,5 +39,11 @@ class Parser
     {
         return array(
         );
+    }
+
+    public static function parse($number, $scale, $locale) {
+        $p = new static($number, $scale, $locale);
+        $p->_parse();
+        return $p;
     }
 }
