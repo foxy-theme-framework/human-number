@@ -15,8 +15,7 @@ class Parser
     {
         $this->raw = $number;
         if (is_null(static::$defaultScale)) {
-            static::$defaultScale = new Scale(array(
-            ));
+            static::$defaultScale = static::createDefaultScale();
         }
     }
 
