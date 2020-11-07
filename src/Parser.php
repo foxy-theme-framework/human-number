@@ -7,19 +7,14 @@ class Parser
     protected $scale;
     protected $raw;
     protected $value;
-    protected $unit;
+    protected $prefix;
+    protected $parsed = false;
 
     protected static $defaultScale;
 
     public function __construct($number = null, $scale = null, $locate = null)
     {
         $this->raw = $number;
-        if (is_null(static::$defaultScale)) {
-            static::$defaultScale = static::createDefaultScale();
-        }
-    }
-
-    public static function createDefaultScale() {
     }
 
     public function __toString()
@@ -30,17 +25,50 @@ class Parser
     {
     }
 
-    public function _parse($number, $scale, $locale)
+    public function _parse()
     {
+        $levels = array(
+            1000000 => 'triệu',
+            1000000000 => 'tỷ'
+        );
+        $sortedLevels = array_keys($levels);
+        asort($sortedLevels);
+
+        foreach($sortedLevels as $level) {
+            if ($this->parsed) {
+                break;
+            }
+            $cal = $this->raw / $level;
+            if ( $cal >= 1 ) {
+                $this->value = $cal;
+                $this->prefix = $levels[$level];
+            } else {
+                $this->parsed = true;
+            }
+        }
+        if (!$this->parsed) {
+            if ($this->value <= 0) {
+                $this->value = $this->raw;
+            }
+
+            $this->parsed = true;
+        }
     }
 
     public function toArray()
     {
+        if (!$this->parsed) {
+            $this->_parse();
+        }
+
         return array(
+            'value' => $this->value,
+            'prefix' => $this->prefix
         );
     }
 
-    public static function parse($number, $scale, $locale) {
+    public static function parse($number, $scale, $locale)
+    {
         $p = new static($number, $scale, $locale);
         $p->_parse();
         return $p;
