@@ -15,33 +15,38 @@ class Parser
     public function __construct($number = null, $scale = null, $locate = null)
     {
         $this->raw = $number;
+        $this->scale = $this->createScale($scale);
     }
 
-    public function __toString()
+    public function createScale($scale)
     {
-    }
-
-    public static function init($locale)
-    {
+        if (is_a($scale, Scale::class)) {
+            return $scale;
+        }
+        return new Scale(array(
+            'scale' => $scale,
+        ));
     }
 
     public function _parse()
     {
-        $levels = array(
-            1000000 => 'triệu',
-            1000000000 => 'tỷ'
-        );
-        $sortedLevels = array_keys($levels);
-        asort($sortedLevels);
+        $this->scale->sortSteps();
+        $allSteps = $this->scale->getSteps();
+        $stepKeys = array_keys($allSteps);
+        $totalStep = count($stepKeys);
 
-        foreach($sortedLevels as $level) {
+        foreach ($stepKeys as $index => $step) {
             if ($this->parsed) {
                 break;
             }
-            $cal = $this->raw / $level;
-            if ( $cal >= 1 ) {
+            $cal = $this->raw / $step;
+
+            if ($cal >= 1) {
                 $this->value = $cal;
-                $this->prefix = $levels[$level];
+                $this->prefix = $allSteps[$step];
+                if ($index >= $totalStep - 1) {
+                    $this->parsed = true;
+                }
             } else {
                 $this->parsed = true;
             }
