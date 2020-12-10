@@ -48,7 +48,7 @@ class Scale
         asort($steps);
 
         foreach ($steps as $step) {
-            $sortedStep[$step] = $this->steps[$step];
+            $sortedSteps[$step] = $this->steps[$step];
         }
 
         $this->steps = $sortedSteps;
