@@ -43,7 +43,15 @@ class Scale
 
     public function sortSteps()
     {
-        asort($this->steps);
+        $sortedSteps = array();
+        $steps       = array_keys($this->steps);
+        asort($steps);
+
+        foreach ($steps as $step) {
+            $sortedStep[$step] = $this->steps[$step];
+        }
+
+        $this->steps = $sortedSteps;
     }
 
     public function getSteps()
