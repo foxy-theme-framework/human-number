@@ -1,8 +1,6 @@
 <?php
 namespace Ramphor\FriendlyNumbers;
 
-use JsonSerializable;
-
 class Scale
 {
     protected $steps = array();
