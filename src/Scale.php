@@ -3,12 +3,19 @@ namespace Ramphor\FriendlyNumbers;
 
 class Scale
 {
-    protected $steps = array();
+    protected $steps    = array();
+    protected $decimals = 2;
+
+    protected $decimal_separator;
+    protected $thousands_separator;
 
     public function __construct($args = array())
     {
         $args = wp_parse_args($args, array(
             'scale' => null,
+            'decimals' => 2,
+            'decimal_separator' => '.',
+            'thousands_separator' => ','
         ));
         if (is_array($args['scale'])) {
             $this->steps = $args['scale'];
@@ -20,6 +27,9 @@ class Scale
                 $this->steps = static::createScaleDefault();
             }
         }
+        $this->decimals = $args['decimals'];
+        $this->decimal_separator = $args['decimal_separator'];
+        $this->thousands_separator = $args['thousands_separator'];
     }
 
     public static function createScaleDefault()
@@ -55,5 +65,17 @@ class Scale
     public function getSteps()
     {
         return $this->steps;
+    }
+
+    public function getDecimals() {
+        return $this->decimals;
+    }
+
+    public function getDecimalSeparator() {
+        return $this->decimal_separator;
+    }
+
+    public function getThousandsSeparator() {
+        return $this->thousands_separator;
     }
 }

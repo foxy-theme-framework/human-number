@@ -67,7 +67,12 @@ class Parser
         }
 
         return array(
-            'value' => $this->value,
+            'value' => number_format(
+                $this->value,
+                $this->scale->getDecimals(),
+                $this->scale->getDecimalSeparator(),
+                $this->scale->getThousandsSeparator()
+            ),
             'prefix' => $this->prefix
         );
     }
