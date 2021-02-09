@@ -67,15 +67,18 @@ class Scale
         return $this->steps;
     }
 
-    public function getDecimals() {
+    public function getDecimals()
+    {
         return $this->decimals;
     }
 
-    public function getDecimalSeparator() {
+    public function getDecimalSeparator()
+    {
         return $this->decimal_separator;
     }
 
-    public function getThousandsSeparator() {
+    public function getThousandsSeparator()
+    {
         return $this->thousands_separator;
     }
 }
