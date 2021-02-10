@@ -66,13 +66,14 @@ class Parser
             $this->_parse();
         }
 
+        $roundedPrice = number_format(
+            $this->value,
+            $this->scale->getDecimals(),
+            $this->scale->getDecimalSeparator(),
+            $this->scale->getThousandsSeparator()
+        );
         return array(
-            'value' => number_format(
-                $this->value,
-                $this->scale->getDecimals(),
-                $this->scale->getDecimalSeparator(),
-                $this->scale->getThousandsSeparator()
-            ),
+            'value'  => preg_replace('/\.0{1,}$/', '', $roundedPrice),
             'prefix' => $this->prefix
         );
     }
