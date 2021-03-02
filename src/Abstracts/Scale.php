@@ -19,6 +19,11 @@ abstract class Scale implements ScaleInterface
         }
     }
 
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+    }
+
     public function getUnit()
     {
         return $this->unit;

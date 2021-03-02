@@ -2,6 +2,13 @@
 namespace Ramphor\FriendlyNumbers;
 
 use Ramphor\FriendlyNumbers\Abstracts\Scale;
+use Ramphor\FriendlyNumbers\Scale\DefaultScale;
+use Ramphor\FriendlyNumbers\Scale\BinaryScale;
+use Ramphor\FriendlyNumbers\Scale\TimeScale;
+use Ramphor\FriendlyNumbers\Scale\CurrencyScale;
+use Ramphor\FriendlyNumbers\Scale\LengthScale;
+use Ramphor\FriendlyNumbers\Scale\MassScale;
+use Ramphor\FriendlyNumbers\Scale\AcreScale;
 
 class Parser
 {
@@ -12,26 +19,36 @@ class Parser
     protected $prefix;
     protected $parsed = false;
 
-    protected static $defaultScale;
+    protected static $_builtinScales = array(
+        'default'  => DefaultScale::class,
+        'binary'   => BinaryScale::class,
+        'time'     => TimeScale::class,
+        'currency' => CurrencyScale::class,
+        'length'   => LengthScale::class,
+        'mass'     => MassScale::class,
+        'acre'     => AcreScale::class,
+    );
 
     public function __construct($number = null, $scale = null, $locate = null)
     {
         $this->raw = $number;
-        $this->scale = $this->createScale($scale);
+
+        $this->createScale($scale);
     }
 
     public function createScale($scale)
     {
         if (is_a($scale, Scale::class)) {
-            return $scale;
+            return $this->scale = $scale;
         }
     }
 
     public function _parse()
     {
         $this->scale->sortSteps();
-        $allSteps = $this->scale->getSteps();
-        $stepKeys = array_keys($allSteps);
+
+        $allSteps  = $this->scale->getSteps();
+        $stepKeys  = array_keys($allSteps);
         $totalStep = count($stepKeys);
 
         foreach ($stepKeys as $index => $step) {
