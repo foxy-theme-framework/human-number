@@ -9,6 +9,8 @@ use Ramphor\FriendlyNumbers\Scale\CurrencyScale;
 use Ramphor\FriendlyNumbers\Scale\LengthScale;
 use Ramphor\FriendlyNumbers\Scale\MassScale;
 use Ramphor\FriendlyNumbers\Scale\AcreScale;
+use Ramphor\FriendlyNumbers\Exceptions\ScaleException;
+use Ramphor\FriendlyNumbers\Exceptions\ParseException;
 
 class Parser
 {
@@ -41,10 +43,39 @@ class Parser
         if (is_a($scale, Scale::class)) {
             return $this->scale = $scale;
         }
+
+        $scaleName = false;
+        if (is_string($scale)) {
+            $scaleName = $scale;
+        } elseif (is_array($scale) && isset($scale['scale'])) {
+            $scaleName = $scale['scale'];
+        }
+
+        if ($scaleName) {
+            if (!isset(static::$_builtinScales[$scale])) {
+                throw new ScaleException(
+                    sprint('Scale "%s" is not built in', $scale),
+                    ScaleException::ERROR_INVALID_SCALE
+                );
+            }
+            $scaleCls = static::$_builtinScales[$scale];
+            $this->scale = new $scaleCls();
+
+            if (is_array($scale)) {
+                if (isset($scale['unit'])) {
+                    $this->scale->setUnit($scale['unit']);
+                }
+            }
+            return $this->scale;
+        }
     }
 
     public function _parse()
     {
+        if (is_null($this->scale)) {
+            throw new ParseException('The scale is not found', ParseException::ERROR_SCALE_NOT_FOUND);
+        }
+
         $this->scale->sortSteps();
 
         $allSteps  = $this->scale->getSteps();
