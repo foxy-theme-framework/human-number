@@ -19,6 +19,7 @@ class Parser
     protected $raw;
     protected $value;
     protected $prefix;
+
     protected $parsed = false;
 
     protected static $_builtinScales = array(
@@ -80,8 +81,6 @@ class Parser
             throw new ParseException('The scale is not found', ParseException::ERROR_SCALE_NOT_FOUND);
         }
 
-        $this->scale->sortSteps();
-
         $allSteps  = $this->scale->getSteps();
         $stepKeys  = array_keys($allSteps);
         $totalStep = count($stepKeys);
@@ -125,7 +124,7 @@ class Parser
         );
         return array(
             'value'  => preg_replace('/\.0{1,}$/', '', $roundedPrice),
-            'prefix' => $this->prefix
+            'prefix' => $this->scale->getUnitDisplay($this->prefix)
         );
     }
 
@@ -134,6 +133,17 @@ class Parser
         if (!$this->parsed) {
             $this->_parse();
         }
+
+        return sprintf(
+            '%s %s',
+            number_format(
+                $this->value,
+                $this->scale->getDecimals(),
+                $this->scale->getThousandsSeparator(),
+                $this->scale->getDecimalSeparator()
+            ),
+            $this->scale->getUnitDisplay($this->prefix, $this->value >= 2)
+        );
     }
 
     public static function parse($number, $scale, $locale)

@@ -9,7 +9,12 @@ class BinaryScale extends Scale
 
     protected $unit = 'b';
     protected $jump  = 1024;
-    protected $steps = array(
+    protected $units = array(
+        'b' => 'byte',
+        'kb' => 'kilobyte',
+        'mb' => 'megabyte',
+        'gb' => 'gigabyte',
+        'tb' => 'terabyte'
     );
 
     public function get_name()
