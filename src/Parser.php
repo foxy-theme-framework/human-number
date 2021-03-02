@@ -1,6 +1,8 @@
 <?php
 namespace Ramphor\FriendlyNumbers;
 
+use Ramphor\FriendlyNumbers\Abstracts\Scale;
+
 class Parser
 {
     protected static $locate;
@@ -23,9 +25,6 @@ class Parser
         if (is_a($scale, Scale::class)) {
             return $scale;
         }
-        return new Scale(array(
-            'scale' => $scale,
-        ));
     }
 
     public function _parse()
