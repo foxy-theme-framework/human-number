@@ -22,20 +22,24 @@ class Parser
     protected $parsed = false;
 
     protected static $_builtinScales = array(
-        'default'  => DefaultScale::class,
-        'binary'   => BinaryScale::class,
-        'time'     => TimeScale::class,
-        'currency' => CurrencyScale::class,
-        'length'   => LengthScale::class,
-        'mass'     => MassScale::class,
-        'acre'     => AcreScale::class,
+        DefaultScale::SCALE_NAME  => DefaultScale::class,
+        BinaryScale::SCALE_NAME   => BinaryScale::class,
+        TimeScale::SCALE_NAME     => TimeScale::class,
+        CurrencyScale::SCALE_NAME => CurrencyScale::class,
+        LengthScale::SCALE_NAME   => LengthScale::class,
+        MassScale::SCALE_NAME     => MassScale::class,
+        AcreScale::SCALE_NAME     => AcreScale::class,
     );
 
     public function __construct($number = null, $scale = null, $locate = null)
     {
         $this->raw = $number;
-
         $this->createScale($scale);
+    }
+
+    public function __toString()
+    {
+        return $this->toString();
     }
 
     public function createScale($scale)
@@ -52,13 +56,13 @@ class Parser
         }
 
         if ($scaleName) {
-            if (!isset(static::$_builtinScales[$scale])) {
+            if (!isset(static::$_builtinScales[$scaleName])) {
                 throw new ScaleException(
-                    sprint('Scale "%s" is not built in', $scale),
+                    sprintf('Scale "%s" is not built in', $scaleName),
                     ScaleException::ERROR_INVALID_SCALE
                 );
             }
-            $scaleCls = static::$_builtinScales[$scale];
+            $scaleCls = static::$_builtinScales[$scaleName];
             $this->scale = new $scaleCls();
 
             if (is_array($scale)) {
@@ -125,10 +129,18 @@ class Parser
         );
     }
 
+    public function toString()
+    {
+        if (!$this->parsed) {
+            $this->_parse();
+        }
+    }
+
     public static function parse($number, $scale, $locale)
     {
         $p = new static($number, $scale, $locale);
         $p->_parse();
+
         return $p;
     }
 }
