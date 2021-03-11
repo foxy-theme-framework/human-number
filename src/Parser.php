@@ -8,7 +8,7 @@ use Ramphor\FriendlyNumbers\Scale\TimeScale;
 use Ramphor\FriendlyNumbers\Scale\CurrencyScale;
 use Ramphor\FriendlyNumbers\Scale\LengthScale;
 use Ramphor\FriendlyNumbers\Scale\MassScale;
-use Ramphor\FriendlyNumbers\Scale\AcreScale;
+use Ramphor\FriendlyNumbers\Scale\MetricScale;
 use Ramphor\FriendlyNumbers\Exceptions\ScaleException;
 use Ramphor\FriendlyNumbers\Exceptions\ParseException;
 
@@ -29,7 +29,7 @@ class Parser
         CurrencyScale::SCALE_NAME => CurrencyScale::class,
         LengthScale::SCALE_NAME   => LengthScale::class,
         MassScale::SCALE_NAME     => MassScale::class,
-        AcreScale::SCALE_NAME     => AcreScale::class,
+        MetricScale::SCALE_NAME     => MetricScale::class,
     );
 
     public function __construct($number = null, $scale = null, $locate = null)

@@ -3,11 +3,15 @@ namespace Ramphor\FriendlyNumbers\Scale;
 
 use Ramphor\FriendlyNumbers\Abstracts\Scale;
 
-class AcreScale extends Scale
+class MetricScale extends Scale
 {
     const SCALE_NAME = 'acre';
 
-    protected $unit = 's';
+    protected $units = array(
+        '' => 'm'
+    );
+    protected $unit = 'm';
+    protected $submultiples = '';
 
     public function get_name()
     {
