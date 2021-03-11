@@ -14,7 +14,17 @@ abstract class Scale implements ScaleInterface
     protected $thousands_separator = '.';
 
     protected $jump  = 1000;
-    protected $units = array();
+    protected $units = array(
+        ''  => 'one',
+        'k' => 'thousand',
+        'm' => 'million',
+        'b' => 'billion',
+        't' => 'trillion',
+        'p' => 'quadrillion',
+        'e' => 'quintillion',
+        'z' => 'sextillion',
+        'y' => 'septillion',
+    );
     protected $steps = null;
 
     public function __construct($init = array())
@@ -58,7 +68,6 @@ abstract class Scale implements ScaleInterface
             if ($currentIndex > 0) {
                 $units = array_slice($units, $currentIndex);
             }
-
 
             foreach ($units as $unit) {
                 $steps[$currentNumber]   = $unit;
